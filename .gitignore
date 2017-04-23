@@ -2,13 +2,14 @@
 npm-debug.log*
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-bundle.js
-
+public/
+public/Release
+public/bundle.js
+public/index.html
 
 # Dependency directories
 node_modules/
-public/
+
 
 # Optional npm cache directory
 .npm
