@@ -11348,7 +11348,7 @@ var EditableText = function (_Component) {
     _this.textEntered = _this.textEntered.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
 
-    _this.state = { editable: !!_this.props.value, enteredText: _this.props.value };
+    _this.state = { editable: !!_this.props.value && !_this.props.editable, enteredText: _this.props.value };
     return _this;
   }
 
@@ -11362,7 +11362,9 @@ var EditableText = function (_Component) {
   }, {
     key: "editText",
     value: function editText() {
-      this.setState({ editable: false });
+      if (this.props.editable) {
+        this.setState({ editable: false });
+      }
     }
   }, {
     key: "handleChange",
@@ -11443,22 +11445,56 @@ var slideContent = {
 var SlideDetail = function (_Component) {
   _inherits(SlideDetail, _Component);
 
-  function SlideDetail() {
+  function SlideDetail(props) {
     _classCallCheck(this, SlideDetail);
 
-    return _possibleConstructorReturn(this, (SlideDetail.__proto__ || Object.getPrototypeOf(SlideDetail)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (SlideDetail.__proto__ || Object.getPrototypeOf(SlideDetail)).call(this, props));
+
+    _this.state = {
+      editSlide: false,
+      deleteSlide: false
+    };
+
+    _this.editSlide = _this.editSlide.bind(_this);
+    _this.saveSlide = _this.saveSlide.bind(_this);
+    _this.deleteSlide = _this.deleteSlide.bind(_this);
+    _this.removeLine = _this.removeLine.bind(_this);
+    return _this;
   }
 
   _createClass(SlideDetail, [{
+    key: 'removeLine',
+    value: function removeLine(index) {
+      console.log(index);
+    }
+  }, {
+    key: 'getLineText',
+    value: function getLineText(content, index) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_EditableText2.default, { value: content, editable: this.state.editSlide }),
+        _react2.default.createElement(
+          'button',
+          { type: 'button', className: 'btn btn-danger', 'aria-label': 'Remove', onClick: this.removeLine(index) },
+          _react2.default.createElement('span', { className: 'glyphicon glyphicon-remove-sign', 'aria-hidden': 'true' })
+        )
+      );
+    }
+  }, {
     key: 'getLineContent',
     value: function getLineContent(content, index) {
       if (typeof content === 'string') {
-        return _react2.default.createElement(_EditableText2.default, { value: content });
+        return _react2.default.createElement(
+          'div',
+          null,
+          this.getLineText(content, index)
+        );
       } else if ((typeof content === 'undefined' ? 'undefined' : _typeof(content)) === 'object' && content.content && content.content.data && content.content.data.length) {
         return _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(_EditableText2.default, { value: content.content.text }),
+          this.getLineText(content.content.text, index),
           _react2.default.createElement(
             'ul',
             null,
@@ -11482,6 +11518,21 @@ var SlideDetail = function (_Component) {
       });
     }
   }, {
+    key: 'editSlide',
+    value: function editSlide() {
+      this.setState({ editSlide: true });
+    }
+  }, {
+    key: 'saveSlide',
+    value: function saveSlide() {
+      this.setState({ editSlide: false });
+    }
+  }, {
+    key: 'deleteSlide',
+    value: function deleteSlide() {
+      this.setState({ deleteSlide: false });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -11496,6 +11547,25 @@ var SlideDetail = function (_Component) {
           'ul',
           null,
           this.renderSlide(slideContent.content.data)
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'slide-footer' },
+          _react2.default.createElement(
+            'button',
+            { type: 'button', className: 'btn btn-primary', onClick: this.editSlide },
+            'Edit Side'
+          ),
+          _react2.default.createElement(
+            'button',
+            { type: 'button', className: 'btn btn-success', onClick: this.saveSlide },
+            'Save Slide'
+          ),
+          _react2.default.createElement(
+            'button',
+            { type: 'button', className: 'btn btn-danger', onClick: this.deleteSlide },
+            'Delete Slide'
+          )
         )
       );
     }

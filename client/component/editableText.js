@@ -8,7 +8,7 @@ class EditableText extends Component {
     this.textEntered = this.textEntered.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
-    this.state = {editable : !!this.props.value , enteredText: this.props.value};
+    this.state = {editable : !!this.props.value && !this.props.editable , enteredText: this.props.value};
   }
 
   textEntered(){
@@ -18,7 +18,9 @@ class EditableText extends Component {
   }
 
   editText(){
-    this.setState({editable: false});
+    if(this.props.editable){
+      this.setState({editable: false});
+    }
   }
 
   handleChange(event){
