@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 
@@ -19,11 +20,14 @@ module.exports = {
             }
         ]
     },
-
+    context: __dirname,
     plugins: [
       new HtmlWebpackPlugin({
          filename: 'public/index.html',
          template: 'client/index.html'
-       })
+       }),
+        new CopyWebpackPlugin([
+           { from: 'client/app.css', to: 'public' },
+        ])
     ]
 }

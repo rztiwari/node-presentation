@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import EditableText from './EditableText';
 
 const slideContent = {
   'heading': 'Sample slide for designing',
@@ -38,11 +39,11 @@ class SlideDetail extends Component {
 
   getLineContent(content, index){
     if(typeof content === 'string'){
-      return content;
+      return <EditableText value={content} />;
     }else if(typeof content === 'object' && content.content && content.content.data && content.content.data.length){
       return (
         <div>
-          {content.content.text}
+          <EditableText value={content.content.text}/>
           <ul>
             {this.renderSlide(content.content.data)}
           </ul>
