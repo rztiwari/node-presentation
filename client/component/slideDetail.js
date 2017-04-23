@@ -55,8 +55,7 @@ class SlideDetail extends Component {
     return data.map((line, index) => {
        return (
             <li
-              key={index}
-              className="list-group-item">
+              key={index}>
                   {this.getLineContent(line)}
             </li>
        ) ;
@@ -65,8 +64,8 @@ class SlideDetail extends Component {
 
   render(){
     return(
-      <div>
-        <h2>slideContent.heading</h2>
+      <div className="container">
+        <h2 className="text-center">{slideContent.heading}</h2>
         <ul>
           {this.renderSlide(slideContent.content.data)}
         </ul>

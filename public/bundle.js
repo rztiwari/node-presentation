@@ -11393,8 +11393,7 @@ var SlideDetail = function (_Component) {
         return _react2.default.createElement(
           'li',
           {
-            key: index,
-            className: 'list-group-item' },
+            key: index },
           _this2.getLineContent(line)
         );
       });
@@ -11404,11 +11403,11 @@ var SlideDetail = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'container' },
         _react2.default.createElement(
           'h2',
-          null,
-          'slideContent.heading'
+          { className: 'text-center' },
+          slideContent.heading
         ),
         _react2.default.createElement(
           'ul',
