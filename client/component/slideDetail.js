@@ -51,14 +51,14 @@ class SlideDetail extends Component {
   }
 
   removeLine(index){
-    console.log(index);
+
   }
 
   getLineText(content, index){
     return (
       <div>
         <EditableText value={content} editable={this.state.editSlide} />
-        <button type="button" className="btn btn-danger" aria-label="Remove" onClick={this.removeLine(index)}>
+        <button type="button" className="btn btn-link" aria-label="Remove" onClick={this.removeLine(index)}>
           <span className="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
         </button>
       </div>

@@ -18,12 +18,14 @@ class EditableText extends Component {
   }
 
   editText(){
+    debugger;
     if(this.props.editable){
       this.setState({editable: false});
     }
   }
 
   handleChange(event){
+    console.log(event);
      this.setState({enteredText: event.target.value});
   }
 
@@ -31,7 +33,9 @@ class EditableText extends Component {
     return (
       <div value={this.state.enteredText}>
         <div onDoubleClick={this.editText} hidden={!this.state.editable}>{this.state.enteredText}</div>
-        <textarea placeholder="Enter text" onBlur={this.textEntered} hidden={this.state.editable} value={this.state.enteredText} onChange={this.handleChange}></textarea>
+        <textarea placeholder="Enter text" hidden={this.state.editable}  value={this.state.enteredText}
+          onBlur={this.textEntered}
+          onChange={this.handleChange}></textarea>
       </div>
     )
   }

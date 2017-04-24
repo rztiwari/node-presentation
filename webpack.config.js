@@ -28,6 +28,7 @@ module.exports = {
        }),
         new CopyWebpackPlugin([
            { from: 'client/app.css', to: 'public' },
+           {from: 'external/bootstrap', to: 'public/bootstrap'}
         ])
     ]
 }
