@@ -1,3 +1,14 @@
 .text-center {
   text-align: center;
 }
+.line-content {
+  max-width: 90%;
+  word-wrap: break-word;
+}
+.line-cta{
+  width: 10%;
+  padding-left: 1em;
+}
+.inline {
+  display: inline-block;
+}

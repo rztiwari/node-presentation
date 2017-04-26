@@ -3,116 +3,199 @@ import EditableText from './EditableText';
 
 const slideContent = {
   'heading': 'Sample slide for designing',
-  'content': {
+  'body': {
     'data': [
-      'This is the 1st text',
-      'This looks awesome',
       {
-        'type': 'subList',
-        'content': {
-          'text': 'This is SubContent- beware',
-          'data': [
-            'SubContent 2',
-            'SubContent is also awesome'
-          ]
+        'id': '1',
+        'value': {
+          'type': 'text',
+          content: 'This is the 1st text'
         }
-      },
-      'More Content',
-      {
-        'type': 'subList',
-        'content': {
-          'text': 'Another SubContent',
-          'data': [
-            'More subcontent',
-            'Really liking it now!',
-            'More surprises to come',
-            'SubContent is also awesome'
-          ]
+      }, {
+        'id': '2',
+        'value': {
+          'type': 'text',
+          content: 'This looks awesome'
         }
-      },
-      'This is sample last content'
+      }, {
+        'id': '3',
+        'value': {
+          'type': 'text',
+          content: 'This has SubContent- beware'
+        },
+        'children': [
+          {
+            'id': '3.1',
+            'value': {
+              'type': 'text',
+              content: 'SubContent Text'
+            }
+          }, {
+            'id': '3.2',
+            'value': {
+              'type': 'text',
+              content: 'SubContent Text2'
+            }
+          }
+        ]
+      }, {
+        'id': '4',
+        'value': {
+          'type': 'text',
+          content: 'This looks awesome'
+        }
+      }, {
+        'id': '5',
+        'value': {
+          'type': 'text',
+          content: 'Another subcontent'
+        },
+        'children': [
+          {
+            'id': '5.1',
+            'value': {
+              'type': 'text',
+              content: 'SubContent Text 1'
+            }
+          }, {
+            'id': '5.2',
+            'value': {
+              'type': 'text',
+              content: 'SubContent Text 2'
+            }
+          },
+          {
+            'id': '5.3',
+            'value': {
+              'type': 'text',
+              content: 'SubContent Text 3'
+            }
+          }, {
+            'id': '5.4',
+            'value': {
+              'type': 'text',
+              content: 'SubContent Text 4'
+            }
+          }
+        ]
+      }, {
+        'id': '6x',
+        'value': {
+          'type': 'text',
+          content: 'This is sample last content'
+        }
+      }
     ]
   }
 }
 
 class SlideDetail extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
+
     this.state = {
       editSlide: false,
-      deleteSlide: false
+      deleteSlide: false,
+      slideContent: slideContent
     }
 
     this.editSlide = this.editSlide.bind(this);
     this.saveSlide = this.saveSlide.bind(this);
     this.deleteSlide = this.deleteSlide.bind(this);
-    this.removeLine = this.removeLine.bind(this);
+    this.deleteLine = this.deleteLine.bind(this);
   }
 
-  removeLine(index){
-
-  }
-
-  getLineText(content, index){
+  getLineText(content, id) {
     return (
       <div>
-        <EditableText value={content} editable={this.state.editSlide} />
-        <button type="button" className="btn btn-link" aria-label="Remove" onClick={this.removeLine(index)}>
-          <span className="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
-        </button>
+        <EditableText value={content}
+          remove={this.deleteLine}
+          dataId={id}
+          editable={this.state.editSlide}/>
       </div>
     );
   }
 
-  getLineContent(content, index){
-    if(typeof content === 'string'){
-      return (
-        <div>
-          {this.getLineText(content, index)}
-        </div>
-      );
-    }else if(typeof content === 'object' && content.content && content.content.data && content.content.data.length){
-      return (
-        <div>
-          {this.getLineText(content.content.text, index)}
-          <ul>
-            {this.renderSlide(content.content.data)}
-          </ul>
-        </div>
-      );
+  getLineContent(line) {
+    if (line && line.value) {
+      if (!line.value.type || line.value.type === 'text') {
+        if (!line.children || !line.children.length) {
+          return (
+            <div>
+              {this.getLineText(line.value.content, line.id)}
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              {this.getLineText(line.value.content, line.id)}
+              <ul>
+                {this.renderLines(line.children)}
+              </ul>
+            </div>
+          );
+        }
+      }
     }
   }
 
-  renderSlide(data){
-    return data.map((line, index) => {
-       return (
-            <li
-              key={index}>
-                  {this.getLineContent(line)}
-            </li>
-       ) ;
+  renderLines(data) {
+    return data.map((line) => {
+      if (line.id) {
+        return (
+          <li key={line.id}>
+            {this.getLineContent(line)}
+          </li>
+        );
+      }
     });
   }
 
-  editSlide(){
+  deleteLine(delId){
+debugger;
+    function filterItems(items){
+      const returnItems = [];
+        let children;
+      items.forEach(function(item){
+        if(item.id !== delId){
+          returnItems.push(item);
+        }
+
+        if(item.children && item.children.length){
+          children = filterItems(item.children);
+          item.children = children;
+        }
+      });
+      return returnItems;
+    }
+
+    var slideContent = this.state.slideContent, data;
+    if(slideContent && slideContent.body && slideContent.body.data){
+      data = slideContent.body.data;
+      slideContent.body.data = filterItems(data);
+      this.setState({slideContent: slideContent});
+    }
+  }
+
+  editSlide() {
     this.setState({editSlide: true});
   }
 
-  saveSlide(){
+  saveSlide() {
     this.setState({editSlide: false});
   }
 
-  deleteSlide(){
+  deleteSlide() {
     this.setState({deleteSlide: false});
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <div className="container">
-        <h2 className="text-center">{slideContent.heading}</h2>
+        <h2 className="text-center">{this.state.slideContent.heading}</h2>
         <ul>
-          {this.renderSlide(slideContent.content.data)}
+          {this.renderLines(this.state.slideContent.body.data)}
         </ul>
         <div className="slide-footer">
           <button type="button" className="btn btn-primary" onClick={this.editSlide}>Edit Side</button>
