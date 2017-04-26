@@ -8,6 +8,7 @@ class EditableText extends Component {
     this.textEntered = this.textEntered.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.removeLine = this.removeLine.bind(this);
+    this.addSubline = this.addSubline.bind(this);
 
     this.state = {
       editable : !!this.props.value && !this.props.editable ,
@@ -23,9 +24,11 @@ class EditableText extends Component {
   }
 
   removeLine(evt){
-    // debugger;
-    // console.log(evt);
     this.props.remove(this.state.dataId);
+  }
+
+  addSubline(){
+    this.props.addSubline(this.state.dataId);
   }
 
   editText(){
@@ -53,6 +56,9 @@ class EditableText extends Component {
         <div className="inline line-cta">
           <button type="button" className="btn btn-link" aria-label="Remove" onClick={this.removeLine}>
             <span className="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+          </button>
+          <button type="button" className="btn btn-link" aria-label="Add" onClick={this.addSubline}>
+            <span className="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
           </button>
         </div>
       </div>

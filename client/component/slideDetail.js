@@ -63,8 +63,7 @@ const slideContent = {
               'type': 'text',
               content: 'SubContent Text 2'
             }
-          },
-          {
+          }, {
             'id': '5.3',
             'value': {
               'type': 'text',
@@ -104,15 +103,108 @@ class SlideDetail extends Component {
     this.saveSlide = this.saveSlide.bind(this);
     this.deleteSlide = this.deleteSlide.bind(this);
     this.deleteLine = this.deleteLine.bind(this);
+    this.addSubline = this.addSubline.bind(this);
+  }
+
+  deleteLine(delId) {
+    function filterItems(items) {
+      const returnItems = [];
+      let children;
+      items.forEach(function(item) {
+        if (item.id !== delId) {
+          returnItems.push(item);
+        }
+
+        if (item.children && item.children.length) {
+          children = filterItems(item.children);
+          item.children = children;
+        }
+      });
+      return returnItems;
+    }
+
+    var slideContent = this.state.slideContent,
+      data;
+    if (slideContent && slideContent.body && slideContent.body.data) {
+      data = slideContent.body.data;
+      slideContent.body.data = filterItems(data);
+      this.setState({slideContent: slideContent});
+    }
+  }
+
+  addSubline(parentId) {
+    function addToParentItems(items) {
+      const returnItems = [];
+      let children,
+        count,
+        newItemId;
+      items.forEach(function(item) {
+
+        returnItems.push(item);
+        if (item.id === parentId) {
+          if (!item.children) {
+            item.children = [];
+          }
+          count = item.children.length + 1;
+          newItemId = parentId + '.' + count;
+          item.children.push({
+            'id': newItemId,
+            'value': {
+              'type': 'text',
+              content: ''
+            }
+          });
+        }
+
+        if (item.children && item.children.length) {
+          children = addToParentItems(item.children);
+          item.children = children;
+        }
+      });
+      return returnItems;
+    }
+
+    var slideContent = this.state.slideContent,
+      data;
+    if (slideContent && slideContent.body && slideContent.body.data) {
+      data = slideContent.body.data;
+      slideContent.body.data = addToParentItems(data);
+      this.setState({slideContent: slideContent});
+    }
+  }
+
+  editSlide() {
+    this.setState({editSlide: true});
+  }
+
+  saveSlide() {
+    this.setState({editSlide: false});
+  }
+
+  deleteSlide() {
+    this.setState({deleteSlide: false});
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <h2 className="text-center">{this.state.slideContent.heading}</h2>
+        <ul>
+          {this.renderLines(this.state.slideContent.body.data)}
+        </ul>
+        <div className="slide-footer">
+          <button type="button" className="btn btn-primary" onClick={this.editSlide}>Edit Side</button>
+          <button type="button" className="btn btn-success" onClick={this.saveSlide}>Save Slide</button>
+          <button type="button" className="btn btn-danger" onClick={this.deleteSlide}>Delete Slide</button>
+        </div>
+      </div>
+    );
   }
 
   getLineText(content, id) {
     return (
       <div>
-        <EditableText value={content}
-          remove={this.deleteLine}
-          dataId={id}
-          editable={this.state.editSlide}/>
+        <EditableText value={content} remove={this.deleteLine} addSubline={this.addSubline} dataId={id} editable={this.state.editSlide}/>
       </div>
     );
   }
@@ -150,60 +242,6 @@ class SlideDetail extends Component {
         );
       }
     });
-  }
-
-  deleteLine(delId){
-debugger;
-    function filterItems(items){
-      const returnItems = [];
-        let children;
-      items.forEach(function(item){
-        if(item.id !== delId){
-          returnItems.push(item);
-        }
-
-        if(item.children && item.children.length){
-          children = filterItems(item.children);
-          item.children = children;
-        }
-      });
-      return returnItems;
-    }
-
-    var slideContent = this.state.slideContent, data;
-    if(slideContent && slideContent.body && slideContent.body.data){
-      data = slideContent.body.data;
-      slideContent.body.data = filterItems(data);
-      this.setState({slideContent: slideContent});
-    }
-  }
-
-  editSlide() {
-    this.setState({editSlide: true});
-  }
-
-  saveSlide() {
-    this.setState({editSlide: false});
-  }
-
-  deleteSlide() {
-    this.setState({deleteSlide: false});
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <h2 className="text-center">{this.state.slideContent.heading}</h2>
-        <ul>
-          {this.renderLines(this.state.slideContent.body.data)}
-        </ul>
-        <div className="slide-footer">
-          <button type="button" className="btn btn-primary" onClick={this.editSlide}>Edit Side</button>
-          <button type="button" className="btn btn-success" onClick={this.saveSlide}>Save Slide</button>
-          <button type="button" className="btn btn-danger" onClick={this.deleteSlide}>Delete Slide</button>
-        </div>
-      </div>
-    );
   }
 }
 
