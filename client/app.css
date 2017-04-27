@@ -1,3 +1,6 @@
+html {
+  height: 100%;
+}
 .text-center {
   text-align: center;
 }
@@ -11,4 +14,41 @@
 }
 .inline {
   display: inline-block;
+}
+.back1 {
+  background: url(images/back1.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+.back2 {
+  background: url(images/back2.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+textarea {
+  width: 500px;
+}
+.slide-footer .btn {
+  opacity: .5;
+}
+
+.slide-footer .btn:hover {
+  opacity: 1;
+}
+.previous-slide a {
+  font-size: 2em;
+}
+.next-slide a {
+  font-size: 2em;
+}
+.slide-buttons {
+  text-align: center;
+}
+.slide-buttons button + button {
+  margin-left: 1em;
+}
+.slide-footer{
+  bottom: 0px;
+  position: fixed;
+  width: 100%;
 }

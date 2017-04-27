@@ -38,13 +38,11 @@ class EditableText extends Component {
   }
 
   handleChange(event){
-    console.log(event);
      this.setState({enteredText: event.target.value});
   }
 
   render(){
     let dataId = {dataId: this.state.dataId};
-    console.log(dataId);
     return (
       <div value={this.state.enteredText}>
         <div className="inline line-content">
@@ -55,7 +53,7 @@ class EditableText extends Component {
         </div>
         <div className="inline line-cta">
           <button type="button" className="btn btn-link" aria-label="Remove" onClick={this.removeLine}>
-            <span className="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+            <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </button>
           <button type="button" className="btn btn-link" aria-label="Add" onClick={this.addSubline}>
             <span className="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
