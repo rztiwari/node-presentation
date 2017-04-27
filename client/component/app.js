@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import SlideList from './slideList';
-import SlideDetail from './slideDetail';
+import SlideDetail from '../container/slideDetail';
 
 class App extends Component {
   render(){
