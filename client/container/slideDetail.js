@@ -10,9 +10,6 @@ class SlideDetail extends Component {
     this.state = {
       editSlide: false,
       deleteSlide: false,
-
-
-
     }
 
     this.editSlide = this.editSlide.bind(this);

@@ -25,6 +25,12 @@ html {
   background-size: 100%;
   background-repeat: no-repeat;
 }
+.back2 li {
+  color: red;
+}
+.back2 li li{
+  color: black;
+}
 textarea {
   width: 500px;
 }
@@ -51,4 +57,17 @@ textarea {
   bottom: 0px;
   position: fixed;
   width: 100%;
+}
+.slide-footer .glyphicon {
+  font-size: 2em;                                                                                                                                          font-size: 2em;
+}
+li {
+  padding: .4em;
+  font-size: 2em;
+  font-weight: bold;
+}
+li li{
+  font-size: .75em;
+  padding: .3em;
+  font-weight: bold;
 }
