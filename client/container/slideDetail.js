@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import EditableText from '../component/EditableText';
 import {connect} from 'react-redux';
+
+import EditableText from '../component/EditableText';
+import ButtonContainer from './buttonContainer';
 
 class SlideDetail extends Component {
 
@@ -10,13 +12,12 @@ class SlideDetail extends Component {
     this.state = {
       editSlide: false,
       deleteSlide: false,
+      editMode: this.props.editMode
     }
 
-    this.editSlide = this.editSlide.bind(this);
-    this.saveSlide = this.saveSlide.bind(this);
-    this.deleteSlide = this.deleteSlide.bind(this);
     this.deleteLine = this.deleteLine.bind(this);
     this.addSubline = this.addSubline.bind(this);
+    this.updateButtonStates = this.updateButtonStates.bind(this);
   }
 
   deleteLine(delId) {
@@ -85,19 +86,18 @@ class SlideDetail extends Component {
       this.setState({slideContent: slideContent});
     }
   }
-
-  editSlide() {
-    this.setState({editSlide: true});
+  updateButtonStates(states){
+    debugger;
+    if(states.editSlide === true){
+      this.setState({
+        editSlide: true
+      });
+    }else{
+      this.setState({
+        editSlide: false
+      })
+    }
   }
-
-  saveSlide() {
-    this.setState({editSlide: false});
-  }
-
-  deleteSlide() {
-    this.setState({deleteSlide: false});
-  }
-
   render() {
     return (
       <div className="container-fluid">
@@ -109,11 +109,7 @@ class SlideDetail extends Component {
           <div className="col-xs-2 previous-slide">
             <a href="javascript:void(0);" onClick={this.editSlide}><span className="glyphicon glyphicon-arrow-left"></span></a>
           </div>
-          <div className="col-xs-8 slide-buttons">
-            <button type="button" className="btn btn-primary" onClick={this.editSlide}>Edit Side</button>
-            <button type="button" className="btn btn-success" onClick={this.saveSlide}>Save Slide</button>
-            <button type="button" className="btn btn-danger" onClick={this.deleteSlide}>Delete Slide</button>
-          </div>
+          <ButtonContainer updateButtonContainerState={this.updateButtonStates}/>
           <div className="col-xs-2 next-slide">
             <a href="javascript:void(0);" onClick={this.editSlide}><span className="glyphicon glyphicon-arrow-right"></span></a>
           </div>
@@ -125,7 +121,7 @@ class SlideDetail extends Component {
   getLineText(content, id) {
     return (
       <div>
-        <EditableText value={content} remove={this.deleteLine} addSubline={this.addSubline} dataId={id} editable={this.state.editSlide}/>
+        <EditableText value={content} editMode={this.state.editMode} remove={this.deleteLine} addSubline={this.addSubline} dataId={id} editable={this.state.editSlide}/>
       </div>
     );
   }
