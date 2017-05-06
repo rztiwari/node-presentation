@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import ModeController from '../component/modeController';
 import SlideDetail  from './slideDetail';
+import SlideList from './slideList';
 
 export default class DisplayContainer extends Component {
 
@@ -26,9 +27,10 @@ export default class DisplayContainer extends Component {
           <ModeController editMode={this.updateEditMode}/>
         </div>
         <div className="row">
-          <div className="col-xs-12">
+          <SlideList />
+          {/* <div className="col-xs-12">
             <SlideDetail editMode={this.state.editMode}/>
-          </div>
+          </div> */}
         </div>
       </div>
     );
