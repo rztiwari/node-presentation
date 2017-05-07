@@ -3,8 +3,13 @@ import {connect} from 'react-redux';
 
 import EditableText from '../component/EditableText';
 import ButtonContainer from './buttonContainer';
+import {fetchSlideDetails} from '../action/index'
 
 class SlideDetail extends Component {
+
+  componentWillMount() {
+    this.props.fetchSlideDetails('slide5');
+  }
 
   constructor(props) {
     super(props);
@@ -37,7 +42,7 @@ class SlideDetail extends Component {
       return returnItems;
     }
 
-    var slideContent = this.props.slideContent,
+    var slideContent = this.props.slideContent.slides,
       data;
     if (slideContent && slideContent.body && slideContent.body.data) {
       data = slideContent.body.data;
@@ -78,7 +83,7 @@ class SlideDetail extends Component {
       return returnItems;
     }
 
-    var slideContent = this.props.slideContent,
+    var slideContent = this.props.slideContent.slides,
       data;
     if (slideContent && slideContent.body && slideContent.body.data) {
       data = slideContent.body.data;
@@ -99,23 +104,29 @@ class SlideDetail extends Component {
     }
   }
   render() {
-    return (
-      <div className="container-fluid">
-        <h2 className="text-center">{this.props.slideContent.heading}</h2>
-        <ul>
-          {this.renderLines(this.props.slideContent.body.data)}
-        </ul>
-        <div className="slide-footer container">
-          <div className="col-xs-2 previous-slide">
-            <a href="javascript:void(0);" onClick={this.editSlide}><span className="glyphicon glyphicon-arrow-left"></span></a>
-          </div>
-          <ButtonContainer updateButtonContainerState={this.updateButtonStates}/>
-          <div className="col-xs-2 next-slide">
-            <a href="javascript:void(0);" onClick={this.editSlide}><span className="glyphicon glyphicon-arrow-right"></span></a>
+    if(this.props.slideContent && this.props.slideContent.slides &&
+    this.props.slideContent.slides.body){
+      return (
+        <div className="container-fluid">
+          <h2 className="text-center">{this.props.slideContent.slides.heading}</h2>
+          <ul>
+            {this.renderLines(this.props.slideContent.slides.body.data)}
+          </ul>
+          <div className="slide-footer container">
+            <div className="col-xs-2 previous-slide">
+              <a href="javascript:void(0);" onClick={this.editSlide}><span className="glyphicon glyphicon-arrow-left"></span></a>
+            </div>
+            <ButtonContainer updateButtonContainerState={this.updateButtonStates}/>
+            <div className="col-xs-2 next-slide">
+              <a href="javascript:void(0);" onClick={this.editSlide}><span className="glyphicon glyphicon-arrow-right"></span></a>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    return <div></div>;
+
   }
 
   getLineText(content, id) {
@@ -169,4 +180,5 @@ function mapStateToProps(state){
   };
 }
 
-export default connect(mapStateToProps)(SlideDetail);
+export default connect(mapStateToProps,
+  {fetchSlideDetails: fetchSlideDetails})(SlideDetail);
