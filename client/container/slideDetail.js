@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 
 import EditableText from '../component/EditableText';
 import ButtonContainer from './buttonContainer';
-import {fetchSlideDetails} from '../action/index'
+import {fetchSlideDetails, deleteLine, addSubLine, saveSlide, editLine} from '../action/index'
 
 class SlideDetail extends Component {
 
   componentWillMount() {
-    this.props.fetchSlideDetails('slide5');
+    this.props.fetchSlideDetails('slide3');
   }
 
   constructor(props) {
@@ -20,119 +20,55 @@ class SlideDetail extends Component {
       editMode: this.props.editMode
     }
 
-    this.deleteLine = this.deleteLine.bind(this);
-    this.addSubline = this.addSubline.bind(this);
+    this.saveSlideDetails = this.saveSlideDetails.bind(this);
     this.updateButtonStates = this.updateButtonStates.bind(this);
   }
 
-  deleteLine(delId) {
-    function filterItems(items) {
-      const returnItems = [];
-      let children;
-      items.forEach(function(item) {
-        if (item.id !== delId) {
-          returnItems.push(item);
-        }
-
-        if (item.children && item.children.length) {
-          children = filterItems(item.children);
-          item.children = children;
-        }
-      });
-      return returnItems;
-    }
-
-    var slideContent = this.props.slideContent.slides,
-      data;
-    if (slideContent && slideContent.body && slideContent.body.data) {
-      data = slideContent.body.data;
-      slideContent.body.data = filterItems(data);
-      this.setState({slideContent: slideContent});
-    }
+  saveSlideDetails(){
+    this.props.saveSlide('slide3', this.props.slideContent.slide)
   }
 
-  addSubline(parentId) {
-    function addToParentItems(items) {
-      const returnItems = [];
-      let children,
-        count,
-        newItemId;
-      items.forEach(function(item) {
-
-        returnItems.push(item);
-        if (item.id === parentId) {
-          if (!item.children) {
-            item.children = [];
-          }
-          count = item.children.length + 1;
-          newItemId = parentId + '.' + count;
-          item.children.push({
-            'id': newItemId,
-            'value': {
-              'type': 'text',
-              content: ''
-            }
-          });
-        }
-
-        if (item.children && item.children.length) {
-          children = addToParentItems(item.children);
-          item.children = children;
-        }
-      });
-      return returnItems;
-    }
-
-    var slideContent = this.props.slideContent.slides,
-      data;
-    if (slideContent && slideContent.body && slideContent.body.data) {
-      data = slideContent.body.data;
-      slideContent.body.data = addToParentItems(data);
-      this.setState({slideContent: slideContent});
-    }
-  }
-  updateButtonStates(states){
-    debugger;
-    if(states.editSlide === true){
-      this.setState({
-        editSlide: true
-      });
-    }else{
-      this.setState({
-        editSlide: false
-      })
+  updateButtonStates(states) {
+    if (states.editSlide === true) {
+      this.setState({editSlide: true});
+    } else {
+      this.setState({editSlide: false})
     }
   }
   render() {
-    if(this.props.slideContent && this.props.slideContent.slides &&
-    this.props.slideContent.slides.body){
+    if (this.props.slideContent && this.props.slideContent.slide && this.props.slideContent.slide.body) {
       return (
         <div className="container-fluid">
-          <h2 className="text-center">{this.props.slideContent.slides.heading}</h2>
+          <h2 className="text-center">{this.props.slideContent.slide.heading}</h2>
           <ul>
-            {this.renderLines(this.props.slideContent.slides.body.data)}
+            {this.renderLines(this.props.slideContent.slide.body.data)}
           </ul>
           <div className="slide-footer container">
             <div className="col-xs-2 previous-slide">
-              <a href="javascript:void(0);" onClick={this.editSlide}><span className="glyphicon glyphicon-arrow-left"></span></a>
+              <a href="javascript:void(0);" onClick={this.editSlide}>
+                <span className="glyphicon glyphicon-arrow-left"></span>
+              </a>
             </div>
-            <ButtonContainer updateButtonContainerState={this.updateButtonStates}/>
+            <ButtonContainer updateButtonContainerState={this.updateButtonStates} saveSlide={this.saveSlideDetails}/>
             <div className="col-xs-2 next-slide">
-              <a href="javascript:void(0);" onClick={this.editSlide}><span className="glyphicon glyphicon-arrow-right"></span></a>
+              <a href="javascript:void(0);" onClick={this.editSlide}>
+                <span className="glyphicon glyphicon-arrow-right"></span>
+              </a>
             </div>
           </div>
         </div>
       );
     }
-
     return <div></div>;
-
   }
 
   getLineText(content, id) {
     return (
       <div>
-        <EditableText value={content} editMode={this.state.editMode} remove={this.deleteLine} addSubline={this.addSubline} dataId={id} editable={this.state.editSlide}/>
+        <EditableText value={content}
+          editMode={this.state.editMode} remove={this.props.deleteLine}
+          addSubline={this.props.addSubLine} dataId={id}
+          editable={this.state.editSlide} updateLine={this.props.editLine}/>
       </div>
     );
   }
@@ -173,12 +109,17 @@ class SlideDetail extends Component {
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   //Whatever is returned will be shown as props for the component
   return {
-    slideContent : state.slideContent //This will be available as this.props.slideDetail
+    slideContent: state.slideContent //This will be available as this.props.slideDetail
   };
 }
 
-export default connect(mapStateToProps,
-  {fetchSlideDetails: fetchSlideDetails})(SlideDetail);
+export default connect(mapStateToProps, {
+  fetchSlideDetails: fetchSlideDetails,
+  deleteLine: deleteLine,
+  addSubLine: addSubLine,
+  saveSlide: saveSlide,
+  editLine: editLine
+})(SlideDetail);

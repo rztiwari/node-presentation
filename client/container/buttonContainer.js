@@ -23,6 +23,7 @@ export default class ButtonContainer extends Component {
 
   saveSlide() {
     this.setState({editSlide: false});
+    this.props.saveSlide(true);
     this.updateButtonState();
   }
 

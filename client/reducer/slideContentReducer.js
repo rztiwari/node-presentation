@@ -1,101 +1,135 @@
-// export default function(){
-//   return {
-//     'heading': 'Sample slide for designing',
-//     'body': {
-//       'data': [
-//         {
-//           'id': '1',
-//           'value': {
-//             'type': 'text',
-//             content: 'This is the 1st text'
-//           }
-//         }, {
-//           'id': '2',
-//           'value': {
-//             'type': 'text',
-//             content: 'This looks awesome'
-//           }
-//         }, {
-//           'id': '3',
-//           'value': {
-//             'type': 'text',
-//             content: 'This has SubContent- beware'
-//           },
-//           'children': [
-//             {
-//               'id': '3.1',
-//               'value': {
-//                 'type': 'text',
-//                 content: 'SubContent Text'
-//               }
-//             }, {
-//               'id': '3.2',
-//               'value': {
-//                 'type': 'text',
-//                 content: 'SubContent Text2'
-//               }
-//             }
-//           ]
-//         }, {
-//           'id': '4',
-//           'value': {
-//             'type': 'text',
-//             content: 'This looks awesome'
-//           }
-//         }, {
-//           'id': '5',
-//           'value': {
-//             'type': 'text',
-//             content: 'Another subcontent'
-//           },
-//           'children': [
-//             {
-//               'id': '5.1',
-//               'value': {
-//                 'type': 'text',
-//                 content: 'SubContent Text 1'
-//               }
-//             }, {
-//               'id': '5.2',
-//               'value': {
-//                 'type': 'text',
-//                 content: 'SubContent Text 2'
-//               }
-//             }, {
-//               'id': '5.3',
-//               'value': {
-//                 'type': 'text',
-//                 content: 'SubContent Text 3'
-//               }
-//             }, {
-//               'id': '5.4',
-//               'value': {
-//                 'type': 'text',
-//                 content: 'SubContent Text 4'
-//               }
-//             }
-//           ]
-//         }, {
-//           'id': '6x',
-//           'value': {
-//             'type': 'text',
-//             content: 'This is sample last content'
-//           }
-//         }
-//       ]
-//     }
-//   };
-// }
+import {FETCH_SLIDE_DETAILS, DELETE_LINE, ADD_SUB_LINE, UPDATE_SLIDE, EDIT_LINE} from '../action/index';
 
-import {FETCH_SLIDE_DETAILS} from '../action/index';
+const INITIAL_STATE = {
+  slide: {}
+};
 
-const INITIAL_STATE = {slides: {}};
+export default function(state = INITIAL_STATE, action) {
+  switch (action.type) {
+    case FETCH_SLIDE_DETAILS:
+      return {
+        ...state,
+        slide: action.payload.data
+      };
+    case DELETE_LINE:
+      return {
+        ...state,
+        slide: deleteLine(state, action.deleteId)
+      };
+    case ADD_SUB_LINE:
+      return {
+        ...state,
+        slide: addSubline(state, action.parentId)
+      };
+    case UPDATE_SLIDE:
+      return state;
+    case EDIT_LINE:
+      return {
+        ...state,
+        slide: updateLine(state, action.lineId, action.content)
+      };
+    default:
+      return state;
+  }
+}
 
-export default function(state = INITIAL_STATE, action){
-    switch(action.type){
-        case FETCH_SLIDE_DETAILS:
-            return {...state, slides: action.payload.data};
-        default:
-            return state;
-    }
+const deleteLine = function(state, delId) {
+  function filterItems(items) {
+    const returnItems = [];
+    let children;
+    items.forEach(function(item) {
+      if (item.id !== delId) {
+        returnItems.push(item);
+      }
+      if (item.children && item.children.length) {
+        children = filterItems(item.children);
+        item.children = children;
+      }
+    });
+    return returnItems;
+  }
+
+  let slideContent = state.slide,
+    data;
+  if (slideContent && slideContent.body && slideContent.body.data) {
+    data = slideContent.body.data;
+    slideContent.body.data = filterItems(data);
+  }
+  return slideContent;
+}
+
+const addSubline = function(state, parentId) {
+  function addToParentItems(items) {
+    const returnItems = [];
+    let children,
+      count,
+      newItemId;
+    items.forEach(function(item) {
+
+      returnItems.push(item);
+      if (item.id === parentId) {
+        if (!item.children) {
+          item.children = [];
+        }
+        count = item.children.length + 1;
+        newItemId = parentId + '.' + count;
+        item.children.push({
+          'id': newItemId,
+          'value': {
+            'type': 'text',
+            content: ''
+          }
+        });
+      }
+
+      if (item.children && item.children.length) {
+        children = addToParentItems(item.children);
+        item.children = children;
+      }
+    });
+    return returnItems;
+  }
+
+  let slideContent = state.slide,
+    data;
+
+  if (slideContent && slideContent.body && slideContent.body.data) {
+    data = slideContent.body.data;
+    slideContent.body.data = addToParentItems(data);
+  }
+  return slideContent;
+}
+
+const updateLine = function(state, lineId, content) {
+  function updateLine(items) {
+    const returnItems = [];
+    let children,
+      count,
+      newItemId;
+    items.forEach(function(item) {
+
+      if (item.id === lineId) {
+        item.value = {
+          'type': 'text',
+          'content': content
+        };
+      }
+      returnItems.push(item);
+
+      if (item.children && item.children.length) {
+        children = updateLine(item.children);
+        item.children = children;
+      }
+    });
+    return returnItems;
+  }
+
+  let slideContent = state.slide,
+    data;
+
+  if (slideContent && slideContent.body && slideContent.body.data) {
+    data = slideContent.body.data;
+    slideContent.body.data = updateLine(data);
+  }
+  return slideContent;
 }

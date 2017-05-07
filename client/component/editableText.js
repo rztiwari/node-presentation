@@ -39,6 +39,7 @@ class EditableText extends Component {
 
   handleChange(event){
      this.setState({enteredText: event.target.value});
+     this.props.updateLine(this.state.dataId, this.state.enteredText);
   }
 
   render(){
