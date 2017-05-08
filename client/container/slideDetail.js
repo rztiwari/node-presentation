@@ -7,10 +7,6 @@ import {fetchSlideDetails, deleteLine, addSubLine, saveSlide, editLine} from '..
 
 class SlideDetail extends Component {
 
-  componentWillMount() {
-    this.props.fetchSlideDetails('slide3');
-  }
-
   constructor(props) {
     super(props);
 
@@ -24,8 +20,14 @@ class SlideDetail extends Component {
     this.updateButtonStates = this.updateButtonStates.bind(this);
   }
 
+  // componentWillMount() {
+  //   if(this.props.slide){
+  //     this.props.fetchSlideDetails(this.props.slide);
+  //   }
+  // }
+
   saveSlideDetails(){
-    this.props.saveSlide('slide3', this.props.slideContent.slide)
+    this.props.saveSlide(this.props.slideId, this.props.slideContent.slide)
   }
 
   updateButtonStates(states) {
