@@ -29,6 +29,7 @@ export default class ButtonContainer extends Component {
 
   deleteSlide() {
     this.setState({deleteSlide: false});
+    this.props.deleteSlide(true);
     this.updateButtonState();
   }
 

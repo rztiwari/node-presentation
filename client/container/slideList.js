@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchSlideList} from '../action/index'
+import {fetchSlideList, deleteSlide} from '../action/index'
 
 class SlideList extends Component {
   constructor(props){
@@ -39,4 +39,4 @@ function mapStateToProps(state) {
   return {slides: state.slideList.slides}
 }
 
-export default connect(mapStateToProps, {fetchSlideList: fetchSlideList})(SlideList);
+export default connect(mapStateToProps, {fetchSlideList: fetchSlideList, deleteSlide: deleteSlide})(SlideList);

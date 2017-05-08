@@ -1,4 +1,11 @@
-import {FETCH_SLIDE_DETAILS, DELETE_LINE, ADD_SUB_LINE, UPDATE_SLIDE, EDIT_LINE} from '../action/index';
+import {
+  FETCH_SLIDE_DETAILS,
+  DELETE_LINE,
+  ADD_SUB_LINE,
+  UPDATE_SLIDE,
+  EDIT_LINE,
+  DELETE_SLIDE
+} from '../action/index';
 
 const INITIAL_STATE = {
   slide: {}
@@ -28,6 +35,8 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         slide: updateLine(state, action.lineId, action.content)
       };
+    case DELETE_SLIDE:
+      return getDeleteSlideState(state, action.slideId, action.payload);
     default:
       return state;
   }
@@ -132,4 +141,10 @@ const updateLine = function(state, lineId, content) {
     slideContent.body.data = updateLine(data);
   }
   return slideContent;
+}
+
+const getDeleteSlideState = function(state, slideId, payload) {
+  if (slideId === state.slide.slideId) {
+    return INITIAL_STATE;
+  }
 }

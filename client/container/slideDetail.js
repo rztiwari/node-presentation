@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import EditableText from '../component/EditableText';
 import ButtonContainer from './buttonContainer';
-import {fetchSlideDetails, deleteLine, addSubLine, saveSlide, editLine} from '../action/index'
+import {fetchSlideDetails, deleteLine, addSubLine, saveSlide, editLine, deleteSlide} from '../action/index'
 
 class SlideDetail extends Component {
 
@@ -18,6 +18,7 @@ class SlideDetail extends Component {
 
     this.saveSlideDetails = this.saveSlideDetails.bind(this);
     this.updateButtonStates = this.updateButtonStates.bind(this);
+    this.deleteCurrentSlide = this.deleteCurrentSlide.bind(this);
   }
 
   // componentWillMount() {
@@ -28,6 +29,10 @@ class SlideDetail extends Component {
 
   saveSlideDetails(){
     this.props.saveSlide(this.props.slideId, this.props.slideContent.slide)
+  }
+
+  deleteCurrentSlide(){
+    this.props.deleteSlide(this.props.slideId);
   }
 
   updateButtonStates(states) {
@@ -51,7 +56,10 @@ class SlideDetail extends Component {
                 <span className="glyphicon glyphicon-arrow-left"></span>
               </a>
             </div>
-            <ButtonContainer updateButtonContainerState={this.updateButtonStates} saveSlide={this.saveSlideDetails}/>
+            <ButtonContainer
+              updateButtonContainerState={this.updateButtonStates}
+              saveSlide={this.saveSlideDetails}
+              deleteSlide={this.deleteCurrentSlide}/>
             <div className="col-xs-2 next-slide">
               <a href="javascript:void(0);" onClick={this.editSlide}>
                 <span className="glyphicon glyphicon-arrow-right"></span>
@@ -123,5 +131,6 @@ export default connect(mapStateToProps, {
   deleteLine: deleteLine,
   addSubLine: addSubLine,
   saveSlide: saveSlide,
-  editLine: editLine
+  editLine: editLine,
+  deleteSlide: deleteSlide
 })(SlideDetail);

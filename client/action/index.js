@@ -6,6 +6,7 @@ export const DELETE_LINE = 'DELETE_LINE';
 export const ADD_SUB_LINE = 'ADD_SUB_LINE';
 export const UPDATE_SLIDE = 'UPDATE_SLIDE';
 export const EDIT_LINE = 'EDIT_LINE';
+export const DELETE_SLIDE = 'DELETE_SLIDE';
 
 const ROOT_URL = 'http://127.0.0.1:3000/presentation';
 
@@ -56,5 +57,14 @@ export function saveSlide(slideId, slideData){
   return {
     type: UPDATE_SLIDE,
     payload: request
+  }
+}
+
+export function deleteSlide(slideId){
+  const request = axios.delete(`${ROOT_URL}/slideData/${slideId}`);
+  return {
+    type: DELETE_SLIDE,
+    payload: request,
+    slideId: slideId
   }
 }
