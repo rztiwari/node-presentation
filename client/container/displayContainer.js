@@ -31,18 +31,16 @@ class DisplayContainer extends Component {
 
   render() {
     return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-xs-2 ">
+      <div className="display-container">
+          <section className="slide-list">
             <SlideList currentSlide={this.updateCurrentSlide}/>
-          </div>
-          <div className="col-xs-10">
-            <div className="row">
+          </section>
+          <section className="slide-content">
+            <div className="mode-controller">
               <ModeController editMode={this.updateEditMode}/>
             </div>
             <SlideDetail editMode={this.state.editMode} slideContent={this.props.slideContent} slideId={this.state.currentSlide}/>
-          </div>
-        </div>
+          </section>
       </div>
     );
   }
