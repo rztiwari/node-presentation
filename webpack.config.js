@@ -1,5 +1,6 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
 
@@ -33,6 +34,11 @@ module.exports = {
            { from: 'client/app.css', to: 'public' },
            {from: 'external/bootstrap', to: 'public/bootstrap'},
            {from: 'images', to: 'public/images'}
-        ])
+        ]),
+        new webpack.DefinePlugin({
+          'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+          }
+        })
     ]
 }
