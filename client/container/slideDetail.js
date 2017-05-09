@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import EditableText from '../component/EditableText';
+import EditableText from '../component/editableText';
 import ButtonContainer from './buttonContainer';
 import {fetchSlideDetails, deleteLine, addSubLine, saveSlide, editLine, deleteSlide} from '../action/index'
 

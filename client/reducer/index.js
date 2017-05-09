@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import SlideContentReducer from './slideContentReducer';
-import SlideListReducer from './SlideListReducer';
+import SlideListReducer from './slideListReducer';
 
 const rootReducer = combineReducers({
   slideContent: SlideContentReducer,
