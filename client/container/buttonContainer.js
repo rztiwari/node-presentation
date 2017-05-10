@@ -39,10 +39,22 @@ export default class ButtonContainer extends Component {
 
   render(){
     return(
-      <div className="col-xs-8 slide-buttons">
-        <button type="button" className="btn btn-primary" onClick={this.editSlide}>Edit Side</button>
-        <button type="button" className="btn btn-success" onClick={this.saveSlide}>Save Slide</button>
-        <button type="button" className="btn btn-danger" onClick={this.deleteSlide}>Delete Slide</button>
+      <div className="slide-footer container">
+        <div className="col-xs-2 previous-slide">
+          <a href="javascript:void(0);">
+            <span className="glyphicon glyphicon-arrow-left"></span>
+          </a>
+        </div>
+        <div className="col-xs-8 slide-buttons">
+          <button type="button" className="btn btn-primary" onClick={this.editSlide}>Edit Side</button>
+          <button type="button" className="btn btn-success" onClick={this.saveSlide}>Save Slide</button>
+          <button type="button" className="btn btn-danger" onClick={this.deleteSlide}>Delete Slide</button>
+        </div>
+        <div className="col-xs-2 next-slide">
+          <a href="javascript:void(0);">
+            <span className="glyphicon glyphicon-arrow-right"></span>
+          </a>
+        </div>
       </div>
     );
   }

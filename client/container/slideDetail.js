@@ -50,22 +50,10 @@ class SlideDetail extends Component {
           <ul>
             {this.renderLines(this.props.slideContent.slide.body.data)}
           </ul>
-          <div className="slide-footer container">
-            <div className="col-xs-2 previous-slide">
-              <a href="javascript:void(0);" onClick={this.editSlide}>
-                <span className="glyphicon glyphicon-arrow-left"></span>
-              </a>
-            </div>
-            <ButtonContainer
-              updateButtonContainerState={this.updateButtonStates}
-              saveSlide={this.saveSlideDetails}
-              deleteSlide={this.deleteCurrentSlide}/>
-            <div className="col-xs-2 next-slide">
-              <a href="javascript:void(0);" onClick={this.editSlide}>
-                <span className="glyphicon glyphicon-arrow-right"></span>
-              </a>
-            </div>
-          </div>
+          <ButtonContainer
+            updateButtonContainerState={this.updateButtonStates}
+            saveSlide={this.saveSlideDetails}
+            deleteSlide={this.deleteCurrentSlide}/>
         </div>
       );
     }
