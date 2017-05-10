@@ -11,7 +11,7 @@ class EditableText extends Component {
     this.addSubline = this.addSubline.bind(this);
 
     this.state = {
-      editable : !!this.props.value && !this.props.editable ,
+      editable : this.props.editMode,
       enteredText: this.props.value,
       dataId: this.props.dataId
     };
@@ -32,7 +32,7 @@ class EditableText extends Component {
   }
 
   editText(){
-    if(this.props.editable){
+    if(this.props.editMode){
       this.setState({editable: false});
     }
   }

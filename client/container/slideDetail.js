@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import EditableText from '../component/editableText';
-import ButtonContainer from './buttonContainer';
-import {fetchSlideDetails, deleteLine, addSubLine, saveSlide, editLine, deleteSlide} from '../action/index'
+
+import {deleteLine, addSubLine, editLine} from '../action/index'
 
 class SlideDetail extends Component {
 
@@ -12,13 +12,13 @@ class SlideDetail extends Component {
 
     this.state = {
       editSlide: false,
-      deleteSlide: false,
-      editMode: this.props.editMode
+      deleteSlide: false
+      // editMode: this.props.editMode
     }
 
-    this.saveSlideDetails = this.saveSlideDetails.bind(this);
-    this.updateButtonStates = this.updateButtonStates.bind(this);
-    this.deleteCurrentSlide = this.deleteCurrentSlide.bind(this);
+    // this.saveSlideDetails = this.saveSlideDetails.bind(this);
+    // this.updateButtonStates = this.updateButtonStates.bind(this);
+    // this.deleteCurrentSlide = this.deleteCurrentSlide.bind(this);
   }
 
   // componentWillMount() {
@@ -27,21 +27,21 @@ class SlideDetail extends Component {
   //   }
   // }
 
-  saveSlideDetails(){
-    this.props.saveSlide(this.props.slideId, this.props.slideContent.slide)
-  }
+  // saveSlideDetails(){
+  //   this.props.saveSlide(this.props.slideId, this.props.slideContent.slide)
+  // }
 
-  deleteCurrentSlide(){
-    this.props.deleteSlide(this.props.slideId);
-  }
+  // deleteCurrentSlide(){
+  //   this.props.deleteSlide(this.props.slideId);
+  // }
 
-  updateButtonStates(states) {
-    if (states.editSlide === true) {
-      this.setState({editSlide: true});
-    } else {
-      this.setState({editSlide: false})
-    }
-  }
+  // updateButtonStates(states) {
+  //   if (states.editSlide === true) {
+  //     this.setState({editSlide: true});
+  //   } else {
+  //     this.setState({editSlide: false})
+  //   }
+  // }
   render() {
     if (this.props.slideContent && this.props.slideContent.slide && this.props.slideContent.slide.body) {
       return (
@@ -50,10 +50,10 @@ class SlideDetail extends Component {
           <ul>
             {this.renderLines(this.props.slideContent.slide.body.data)}
           </ul>
-          <ButtonContainer
+          {/* <ButtonContainer
             updateButtonContainerState={this.updateButtonStates}
             saveSlide={this.saveSlideDetails}
-            deleteSlide={this.deleteCurrentSlide}/>
+            deleteSlide={this.deleteCurrentSlide}/> */}
         </div>
       );
     }
@@ -64,9 +64,9 @@ class SlideDetail extends Component {
     return (
       <div>
         <EditableText value={content}
-          editMode={this.state.editMode} remove={this.props.deleteLine}
+          editMode={this.props.editMode} remove={this.props.deleteLine}
           addSubline={this.props.addSubLine} dataId={id}
-          editable={this.state.editSlide} updateLine={this.props.editLine}/>
+          updateLine={this.props.editLine}/>
       </div>
     );
   }
@@ -115,10 +115,8 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  fetchSlideDetails: fetchSlideDetails,
-  deleteLine: deleteLine,
+  // fetchSlideDetails: fetchSlideDetails,
   addSubLine: addSubLine,
-  saveSlide: saveSlide,
-  editLine: editLine,
-  deleteSlide: deleteSlide
+  deleteLine: deleteLine,
+  editLine: editLine
 })(SlideDetail);

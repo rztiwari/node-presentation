@@ -49,8 +49,8 @@ export function editLine(lineId, content){
   }
 }
 
-export function saveSlide(slideId, slideData){
-  let data = {}, jsonData;
+export function saveSlide(slideData){
+  let data = {}, jsonData , slideId = slideData.slideId;
   data[slideId] = slideData;
 
   const request = axios.put(`${ROOT_URL}/slideData/${slideId}`, data);

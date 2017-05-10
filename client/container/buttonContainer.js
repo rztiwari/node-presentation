@@ -8,7 +8,7 @@ export default class ButtonContainer extends Component {
     this.editSlide = this.editSlide.bind(this);
     this.saveSlide = this.saveSlide.bind(this);
     this.deleteSlide = this.deleteSlide.bind(this);
-    this.updateButtonState = this.updateButtonState.bind(this);
+    // this.updateButtonState = this.updateButtonState.bind(this);
 
     this.state = {
       editSlide: false,
@@ -18,24 +18,24 @@ export default class ButtonContainer extends Component {
 
   editSlide() {
     this.setState({editSlide: true});
-    this.updateButtonState();
+    this.props.editSlide(true);
   }
 
   saveSlide() {
     this.setState({editSlide: false});
     this.props.saveSlide(true);
-    this.updateButtonState();
+    // this.updateButtonState();
   }
 
   deleteSlide() {
     this.setState({deleteSlide: false});
     this.props.deleteSlide(true);
-    this.updateButtonState();
+    // this.updateButtonState();
   }
 
-  updateButtonState(){
-    this.props.updateButtonContainerState(this.state);
-  }
+  // updateButtonState(){
+  //   this.props.updateButtonContainerState(this.state);
+  // }
 
   render(){
     return(
