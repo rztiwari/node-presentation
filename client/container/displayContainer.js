@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import ModeController from '../component/modeController';
 import SlideDetail from './slideDetail';
 import SlideList from './slideList';
-import ButtonContainer from './buttonContainer';
 
 import {fetchSlideDetails, saveSlide, deleteSlide} from '../action/index';
 
@@ -20,7 +19,6 @@ class DisplayContainer extends Component {
     this.updateCurrentSlide = this.updateCurrentSlide.bind(this);
     this.saveSlideDetails = this.saveSlideDetails.bind(this);
     this.deleteCurrentSlide = this.deleteCurrentSlide.bind(this);
-    // this.editCurrentSlide = this.editCurrentSlide.bind(this);
   }
 
   updateEditMode(value) {
@@ -35,12 +33,11 @@ class DisplayContainer extends Component {
   }
 
   saveSlideDetails(){
-    debugger;
-    this.props.saveSlide(this.props.slideContent.slide)
+    this.props.saveSlide(this.props.slideContent)
   }
 
   deleteCurrentSlide(){
-    this.props.deleteSlide(this.props.slideContent.slide.slideId);
+    this.props.deleteSlide(this.props.slideContent.slideId);
   }
 
   render() {
@@ -58,10 +55,6 @@ class DisplayContainer extends Component {
             </div>
             <SlideDetail editMode={this.state.editMode} />
           </section>
-          {/* <ButtonContainer
-            saveSlide={this.saveSlideDetails}
-            deleteSlide={this.deleteCurrentSlide}
-            editSlide={this.editCurrentSlide}/> */}
       </div>
     );
   }
@@ -70,7 +63,7 @@ class DisplayContainer extends Component {
 function mapStateToProps(state) {
   //Whatever is returned will be shown as props for the component
   return {
-    slideContent: state.slideContent //This will be available as this.props.slideDetail
+    slideContent: state.slideContent.slide //This will be available as this.props.slideDetail
   };
 }
 

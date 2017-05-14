@@ -8,7 +8,8 @@ export const UPDATE_SLIDE = 'UPDATE_SLIDE';
 export const EDIT_LINE = 'EDIT_LINE';
 export const DELETE_SLIDE = 'DELETE_SLIDE';
 
-const ROOT_URL = 'https://dry-garden-86607.herokuapp.com/presentation';
+// const ROOT_URL = 'https://dry-garden-86607.herokuapp.com/presentation';
+const ROOT_URL = 'http://localhost:3000/presentation';
 
 export function fetchSlideList(){
     const request = axios.get(`${ROOT_URL}/slideList`);

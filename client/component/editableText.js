@@ -44,11 +44,12 @@ class EditableText extends Component {
 
   render(){
     let dataId = {dataId: this.state.dataId};
+    console.log(this.state.enteredText);
     return (
       <div value={this.state.enteredText}>
         <div className="inline line-content">
-          <div onDoubleClick={this.editText} hidden={!this.state.editable}>{this.state.enteredText}</div>
-          <textarea placeholder="Enter text" hidden={this.state.editable}  value={this.state.enteredText}
+          <div onDoubleClick={this.editText} hidden={this.state.editable}>{this.state.enteredText}</div>
+          <textarea placeholder="Enter text" hidden={!this.state.editable}  value={this.state.enteredText}
             onBlur={this.textEntered}
             onChange={this.handleChange}></textarea>
         </div>
@@ -61,7 +62,7 @@ class EditableText extends Component {
           </button>
         </div>
       </div>
-    )
+    );
   }
 }
 

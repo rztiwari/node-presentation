@@ -110,7 +110,7 @@ const addSubline = function(state, parentId) {
 }
 
 const updateLine = function(state, lineId, content) {
-  function updateLine(items) {
+  function updateLineContent(items) {
     const returnItems = [];
     let children,
       count,
@@ -126,7 +126,7 @@ const updateLine = function(state, lineId, content) {
       returnItems.push(item);
 
       if (item.children && item.children.length) {
-        children = updateLine(item.children);
+        children = updateLineContent(item.children);
         item.children = children;
       }
     });
@@ -138,7 +138,7 @@ const updateLine = function(state, lineId, content) {
 
   if (slideContent && slideContent.body && slideContent.body.data) {
     data = slideContent.body.data;
-    slideContent.body.data = updateLine(data);
+    slideContent.body.data = updateLineContent(data);
   }
   return slideContent;
 }

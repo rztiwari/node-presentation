@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import EditableText from '../component/editableText';
+import TextContainer from '../component/textContainer';
 
 import {deleteLine, addSubLine, editLine} from '../action/index'
 
@@ -13,35 +13,9 @@ class SlideDetail extends Component {
     this.state = {
       editSlide: false,
       deleteSlide: false
-      // editMode: this.props.editMode
     }
-
-    // this.saveSlideDetails = this.saveSlideDetails.bind(this);
-    // this.updateButtonStates = this.updateButtonStates.bind(this);
-    // this.deleteCurrentSlide = this.deleteCurrentSlide.bind(this);
   }
 
-  // componentWillMount() {
-  //   if(this.props.slide){
-  //     this.props.fetchSlideDetails(this.props.slide);
-  //   }
-  // }
-
-  // saveSlideDetails(){
-  //   this.props.saveSlide(this.props.slideId, this.props.slideContent.slide)
-  // }
-
-  // deleteCurrentSlide(){
-  //   this.props.deleteSlide(this.props.slideId);
-  // }
-
-  // updateButtonStates(states) {
-  //   if (states.editSlide === true) {
-  //     this.setState({editSlide: true});
-  //   } else {
-  //     this.setState({editSlide: false})
-  //   }
-  // }
   render() {
     if (this.props.slideContent && this.props.slideContent.slide && this.props.slideContent.slide.body) {
       return (
@@ -50,10 +24,6 @@ class SlideDetail extends Component {
           <ul>
             {this.renderLines(this.props.slideContent.slide.body.data)}
           </ul>
-          {/* <ButtonContainer
-            updateButtonContainerState={this.updateButtonStates}
-            saveSlide={this.saveSlideDetails}
-            deleteSlide={this.deleteCurrentSlide}/> */}
         </div>
       );
     }
@@ -63,7 +33,7 @@ class SlideDetail extends Component {
   getLineText(content, id) {
     return (
       <div>
-        <EditableText value={content}
+        <TextContainer value={content}
           editMode={this.props.editMode} remove={this.props.deleteLine}
           addSubline={this.props.addSubLine} dataId={id}
           updateLine={this.props.editLine}/>
